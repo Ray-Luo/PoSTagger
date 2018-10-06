@@ -1,2 +1,3 @@
 tagger.model
 *.vectors
+*.pyc
