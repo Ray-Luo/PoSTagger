@@ -6,11 +6,11 @@ from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 class CharRNN(CharModel):
 
     def __init__(self, data):
-        super(CharRNN, self).__init__()
+        super(CharRNN, self).__init__(data)
 
         self.char_embedding_dim = data.char_embedding_dim
         self.char_hidden_dim = data.char_hidden_dim
-        self.char_embedding = nn.Embedding(char_dic_size + 1, self.char_embedding_dim)
+        self.char_embedding = nn.Embedding(len(data.char_to_idx) + 1, self.char_embedding_dim)
         self.charBiLSTM = nn.LSTM(self.char_embedding_dim, self.char_hidden_dim, batch_first=True,bidirectional=True)
 
 

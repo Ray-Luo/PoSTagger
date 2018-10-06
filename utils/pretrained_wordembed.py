@@ -11,6 +11,8 @@ def load_pretrain_emb(embedding_path):
             if len(line) == 0:
                 continue
             tokens = line.split()
+            if len(tokens) <= 2:
+                continue
             if embedd_dim < 0:
                 embedd_dim = len(tokens) - 1
             else:
@@ -30,6 +32,7 @@ def norm2one(vec):
 
 
 def build_pretrain_embedding(embedding_path, word_alphabet, embedd_dim=100, norm=True):
+    print('Building pretained word embeddings...')
     embedd_dict = dict()
     if embedding_path != None:
         embedd_dict, embedd_dim = load_pretrain_emb(embedding_path)
@@ -56,6 +59,6 @@ def build_pretrain_embedding(embedding_path, word_alphabet, embedd_dim=100, norm
             pretrain_emb[index,:] = np.random.uniform(-scale, scale, [1, embedd_dim])
             not_match += 1
     pretrained_size = len(embedd_dict)
-    print("Embedding:\n     pretrain word:%s, prefect match:%s, case_match:%s, oov:%s, oov%%:%s"%(pretrained_size, perfect_match, case_match, not_match, (not_match+0.)/alphabet_size))
-    return pretrain_emb, embedd_dim
+    #print("Embedding:\n     pretrain word:%s, prefect match:%s, case_match:%s, oov:%s, oov%%:%s"%(pretrained_size, perfect_match, case_match, not_match, (not_match+0.)/alphabet_size))
+    return pretrain_emb
 
