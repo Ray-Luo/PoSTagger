@@ -10,7 +10,7 @@ class SequenceModel(nn.Module):
         super(SequenceModel, self).__init__()
         if data.word_model == 'rnn':
             self.word_model = WordRNN(data)
-            self.wordBiLSTM = nn.LSTM(data.word_embedding_dim+data.char_embedding_dim, data.word_hidden_dim, batch_first=True,bidirectional=True)
+            self.wordBiLSTM = nn.LSTM(data.word_embedding_dim+2*data.char_hidden_dim, data.word_hidden_dim, batch_first=True,bidirectional=True)
             self.hidden2tag = nn.Linear(data.word_hidden_dim*2, len(data.tag_to_idx)+1)
 
         

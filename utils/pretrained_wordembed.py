@@ -32,7 +32,7 @@ def norm2one(vec):
 
 
 def build_pretrain_embedding(embedding_path, word_alphabet, embedd_dim=100, norm=True):
-    print('Building pretained word embeddings...')
+    print('Building pretrained word embeddings...')
     embedd_dict = dict()
     if embedding_path != None:
         embedd_dict, embedd_dim = load_pretrain_emb(embedding_path)

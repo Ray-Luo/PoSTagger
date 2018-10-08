@@ -56,3 +56,107 @@ def getDataLoader(file_path, data):
                                        data.word_to_idx, data.tag_to_idx,\
                                        data.char_to_idx,\
                                        data.batch_size)
+
+
+def calculateFScore(true_lists, predict_lists):
+    sentence_nb = len(true_lists)
+    true_full = []
+    predict_full = []
+    right_full = []
+    right_tag = 0
+    all_tag = 0
+    for idx in range(0, sentence_nb):
+        true_list = true_lists[idx]
+        predict_list = predict_lists[idx]
+        for idy in range(len(true_list)):
+            if true_list[idy] == predict_list[idy]:
+                right_tag += 1
+        all_tag += len(true_list)
+
+        true_matrix = get_matrix(true_list)
+        pred_matrix = get_matrix(predict_list)
+
+        right_ner = list(set(true_matrix).intersection(set(pred_matrix)))
+        true_full += true_matrix
+        predict_full += pred_matrix
+        right_full += right_ner
+    right_num = len(right_full)
+    true_num = len(true_full)
+    predict_num = len(predict_full)
+
+    if predict_num == 0:
+        precision = -1
+    else:
+        precision =  (right_num+0.0)/predict_num
+    if true_num == 0:
+        recall = -1
+    else:
+        recall = (right_num+0.0)/true_num
+    if (precision == -1) or (recall == -1) or (precision+recall) <= 0.:
+        f_score = -1
+    else:
+        f_score = 2*precision*recall/(precision+recall)
+    accuracy = (right_tag+0.0)/all_tag
+    # print "Accuracy: ", right_tag,"/",all_tag,"=",accuracy
+    print("true_num = ", true_num, " pred_num = ", predict_num, " right_num = ", right_num)
+    return accuracy, precision, recall, f_score
+
+def get_matrix(label_list):
+    # list_len = len(word_list)
+    # assert(list_len == len(label_list)), "word list size unmatch with label list"
+    list_len = len(label_list)
+    begin_label = 'B-'
+    inside_label = 'I-'
+    whole_tag = ''
+    index_tag = ''
+    tag_list = []
+    stand_matrix = []
+    for i in range(0, list_len):
+        # wordlabel = word_list[i]
+        current_label = label_list[i].upper()
+        if begin_label in current_label:
+            if index_tag == '':
+                whole_tag = current_label.replace(begin_label,"",1) +'[' +str(i)
+                index_tag = current_label.replace(begin_label,"",1)
+            else:
+                tag_list.append(whole_tag + ',' + str(i-1))
+                whole_tag = current_label.replace(begin_label,"",1)  + '[' + str(i)
+                index_tag = current_label.replace(begin_label,"",1)
+
+        elif inside_label in current_label:
+            if current_label.replace(inside_label,"",1) == index_tag:
+                whole_tag = whole_tag
+            else:
+                if (whole_tag != '')&(index_tag != ''):
+                    tag_list.append(whole_tag +',' + str(i-1))
+                whole_tag = ''
+                index_tag = ''
+        else:
+            if (whole_tag != '')&(index_tag != ''):
+                tag_list.append(whole_tag +',' + str(i-1))
+            whole_tag = ''
+            index_tag = ''
+
+    if (whole_tag != '')&(index_tag != ''):
+        tag_list.append(whole_tag)
+    tag_list_len = len(tag_list)
+
+    for i in range(0, tag_list_len):
+        if  len(tag_list[i]) > 0:
+            tag_list[i] = tag_list[i]+ ']'
+            insert_list = reverse_style(tag_list[i])
+            stand_matrix.append(insert_list)
+
+    return stand_matrix
+
+def reverse_style(input_string):
+    target_position = input_string.index('[')
+    input_len = len(input_string)
+    output_string = input_string[target_position:input_len] + input_string[0:target_position]
+    return output_string
+
+def get_instance(idx):
+    if idx == 0:
+        return 1;
+    else:
+        return idx;

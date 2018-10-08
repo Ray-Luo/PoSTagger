@@ -118,16 +118,17 @@ def collate_fn(data):
 		char_lengths, char_perm_idx = char_lengths.sort(0, descending=True)
 		chars_tensor = chars_tensor[char_perm_idx]
 		_, char_seq_recover = char_perm_idx.sort(0, descending=False)
+		_, word_seq_recover = word_perm_idx.sort(0, descending=False)
 
-		return chars_tensor.squeeze(), char_lengths, char_seq_recover.squeeze()
+		return chars_tensor.squeeze(), char_lengths, char_seq_recover.squeeze(), word_seq_recover.squeeze()
 
 
 	data.sort(key=lambda x: len(x[0]), reverse=True)
 	soruce_seqs, char_seqs, target_seqs = zip(*data)
 	soruce_seqs, source_lengths, target_seqs, mask = mergeWordTag(soruce_seqs,target_seqs)
-	char_seqs, char_lengths,char_seq_recover = mergeChar(char_seqs)
+	char_seqs, char_lengths,char_seq_recover,word_seq_recover = mergeChar(char_seqs)
 
-	return soruce_seqs,source_lengths,\
+	return soruce_seqs,source_lengths,word_seq_recover,\
 			char_seqs,char_lengths,char_seq_recover,\
 			target_seqs, mask
 

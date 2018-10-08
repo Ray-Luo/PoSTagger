@@ -117,7 +117,7 @@ class Data:
             for tag in tags:
                 if tag not in self.tag_to_idx:
                     self.tag_to_idx[tag] = len(self.tag_to_idx) + 1
-                    self.reverse_tag_to_idx[len(self.tag_to_idx)+1] = tag
+                    self.reverse_tag_to_idx[len(self.reverse_tag_to_idx)+1] = tag
 
             sen_list = sentence
             for word in sen_list:
