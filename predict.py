@@ -72,4 +72,4 @@ if __name__ == '__main__':
     predicted_labels = predict(model, predict_instances, data)
     pred_results = pd.concat([words, predicted_labels],axis=1)
     pred_results.to_csv(data.result_save_path,header=False,index=False)
-    print('Results save at {}.'.format(data.result_save_path))
+    print('Results saved at {}.'.format(data.result_save_path))
