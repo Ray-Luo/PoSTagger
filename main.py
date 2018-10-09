@@ -1,6 +1,7 @@
 from model.Data import Data
 from utils.NLPDataLoader import NLPDataLoader
 from utils.function import *
+import random
 from model.SequenceModel import SequenceModel
 import torch
 import torch.optim as optim
@@ -60,17 +61,17 @@ def recover_label(data, pred_variable, true_variable, mask_variable, label_alpha
 
 def train(training_instances, validation_instances, evaluation_instances, data):
     print("Training started...")
-    torch.manual_seed(1)
     model = SequenceModel(data)
     if data.optimizer == 'Adam':
         optimizer = optim.Adam(model.parameters(), lr=data.learning_rate)
     model.to(device)
+    best_f_score = 0
     for epoch in range(data.epoch):
         right_token = 0
         whole_token = 0
         total_loss = 0
         sub_loss = 0
-
+        model.zero_grad()
         for i, item in enumerate(training_instances):
             i += 1
             word_seq, word_seq_lengths = item[0].to(device), item[1].to(device)
@@ -85,8 +86,8 @@ def train(training_instances, validation_instances, evaluation_instances, data):
             mask = mask.cpu().data.numpy()
             pred = pred_tag_seq.cpu().data.numpy()
             true = true_tags.cpu().data.numpy()
-            overlaped = (pred == true)
-            right = np.sum(overlaped * mask)
+            overlapped = (pred == true)
+            right = np.sum(overlapped * mask)
             whole = mask.sum()
             right_token += right
             whole_token += whole
@@ -94,6 +95,7 @@ def train(training_instances, validation_instances, evaluation_instances, data):
             total_loss += loss.item()
             loss.backward()
             optimizer.step()
+            model.zero_grad()
 
 
             instances_nb = i*data.batch_size
@@ -115,16 +117,22 @@ def train(training_instances, validation_instances, evaluation_instances, data):
 
         # evaluation
         accuracy, precision, recall, f_score = evaluate(model, evaluation_instances, data)
-        print("Evaluation --> accuracy: {:0.4f}, precision: {:0.4f}, recall: {:0.4f}, f_score: {:0.4f}".format(accuracy, precision, recall, f_score))
-        print("**"*30)          
+        print("Evaluation --> accuracy: {:0.4f}, precision: {:0.4f}, recall: {:0.4f}, f_score: {:0.4f}".format(accuracy, precision, recall, f_score))  
 
-    torch.save(model, data.save_path)
-    print("Training finished.")
+        if best_f_score < f_score:
+            best_f_score = f_score
+            torch.save(model, data.save_path)
+            print("Better f_score found. Saving the model...")
+        print("**"*30)
+    print("Training finished. Best f_score is {:0.4f}".format(best_f_score))
 
 
 
 
-
+seed_num = 123
+random.seed(seed_num)
+torch.manual_seed(seed_num)
+np.random.seed(seed_num)
 
 
 if __name__ == '__main__':
