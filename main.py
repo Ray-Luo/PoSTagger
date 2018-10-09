@@ -123,8 +123,8 @@ def train(training_instances, validation_instances, evaluation_instances, data):
             best_f_score = f_score
             torch.save(model, data.save_path)
             print("Better f_score found. Saving the model...")
-        print("**"*30)
-    print("Training finished. Best f_score is {:0.4f}".format(best_f_score))
+        print("**"*50)
+    print("Training finished. Best f_score is {:0.4f}.".format(best_f_score))
 
 
 

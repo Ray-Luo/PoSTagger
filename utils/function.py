@@ -2,7 +2,7 @@ from .NLPDataLoader import *
 import pandas as pd
 
 def printParameterSummary(data):
-    print("**"*30)
+    print("**"*50)
     print("Parameter Summary Start")
     print("        training_path: %s"%(data.training_path))
     print("      validation_path: %s"%(data.validation_path))
@@ -21,7 +21,7 @@ def printParameterSummary(data):
     print("            save_path: %s"%(data.save_path))
     print("                  GPU: %s"%(data.GPU))
     print("Parameter Summary End")
-    print("**"*30)
+    print("**"*50)
 
 
 
