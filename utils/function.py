@@ -2,32 +2,68 @@ from .NLPDataLoader import *
 import pandas as pd
 
 def printParameterSummary(data):
-    print("**"*50)
-    print("Parameter Summary Start")
-    print("        training_path: %s"%(data.training_path))
-    print("      validation_path: %s"%(data.validation_path))
-    print("      evaluation_path: %s"%(data.evaluation_path))
-    print("   char_embedding_dim: %s"%(data.char_embedding_dim))
-    print("   word_embedding_dim: %s"%(data.word_embedding_dim))
-    print("      char_hidden_dim: %s"%(data.char_hidden_dim))
-    print("      word_hidden_dim: %s"%(data.word_hidden_dim))
-    print("                epoch: %s"%(data.epoch))
-    print("        learning_rate: %s"%(data.learning_rate))
-    print(" pretained_word_embed: %s"%(data.pretrained_word_embed_path))
-    print("           char_model: %s"%(data.char_model))
-    print("           word_model: %s"%(data.word_model))
-    print("           batch_size: %s"%(data.batch_size))
-    print("            optimizer: %s"%(data.optimizer))
-    print("            save_path: %s"%(data.save_path))
-    print("                  GPU: %s"%(data.GPU))
-    print("Parameter Summary End")
-    print("**"*50)
+    if data.mode == 'training':
+        print("**"*50)
+        print("Parameter Summary Start")
+        print("                 mode: %s"%(data.mode))
+        print("        training_path: %s"%(data.training_path))
+        print("      validation_path: %s"%(data.validation_path))
+        print("      evaluation_path: %s"%(data.evaluation_path))
+        print("   char_embedding_dim: %s"%(data.char_embedding_dim))
+        print("   word_embedding_dim: %s"%(data.word_embedding_dim))
+        print("      char_hidden_dim: %s"%(data.char_hidden_dim))
+        print("      word_hidden_dim: %s"%(data.word_hidden_dim))
+        print("                epoch: %s"%(data.epoch))
+        print("        learning_rate: %s"%(data.learning_rate))
+        print(" pretained_word_embed: %s"%(data.pretrained_word_embed_path))
+        print("           char_model: %s"%(data.char_model))
+        print("           word_model: %s"%(data.word_model))
+        print("           batch_size: %s"%(data.batch_size))
+        print("            optimizer: %s"%(data.optimizer))
+        print("      model_save_path: %s"%(data.model_save_path))
+        print("       data_save_path: %s"%(data.data_save_path))
+        print("                  NER: %s"%(data.NER))
+        print("                  GPU: %s"%(data.GPU))
+        print("Parameter Summary End")
+        print("**"*50)
+    else:
+        print("**"*50)
+        print("Parameter Summary Start")
+        print("                 mode: %s"%(data.mode))
+        print("           infer_path: %s"%(data.infer_path))
+        print("   char_embedding_dim: %s"%(data.char_embedding_dim))
+        print("   word_embedding_dim: %s"%(data.word_embedding_dim))
+        print("      char_hidden_dim: %s"%(data.char_hidden_dim))
+        print("      word_hidden_dim: %s"%(data.word_hidden_dim))
+        print("                epoch: %s"%(data.epoch))
+        print("        learning_rate: %s"%(data.learning_rate))
+        print(" pretained_word_embed: %s"%(data.pretrained_word_embed_path))
+        print("           char_model: %s"%(data.char_model))
+        print("           word_model: %s"%(data.word_model))
+        print("           batch_size: %s"%(data.batch_size))
+        print("            optimizer: %s"%(data.optimizer))
+        print("      model_save_path: %s"%(data.model_save_path))
+        print("       data_save_path: %s"%(data.data_save_path))
+        print("     result_save_path: %s"%(data.result_save_path))
+        print("                  NER: %s"%(data.NER))
+        print("                  GPU: %s"%(data.GPU))
+        print("Parameter Summary End")
+        print("**"*50)
 
 
 
-def getInstances(file_path):
-    data = pd.read_csv(file_path,header=None,low_memory=False,encoding='utf-8')
-    column0, column1, column2 = data[data.columns[0]],data[data.columns[1]],data[data.columns[2]]
+
+def getInstances(data, file_path):
+    file = pd.read_csv(file_path,header=None,low_memory=False,encoding='utf-8')
+    if len(file.columns) > 2:
+        column0, column1, column2 = file[file.columns[0]],file[file.columns[1]],file[file.columns[2]]
+    else:
+        # during inference, create dummy column2
+        column0, column1= file[file.columns[0]],file[file.columns[1]]
+        column2 = np.zeros((len(column0), 1))
+        column2 = [list(data.tag_to_idx.keys())[0] for i in column2]
+        column2 = pd.DataFrame(column2,columns=[3])
+        column2 = column2[column2.columns[0]]
     preIdx = '0'
     preToken = ''
     STRINGS = []
@@ -48,10 +84,12 @@ def getInstances(file_path):
         tag_tmp.append(tag)
         preIdx = idx
 
+    STRINGS.append(string_tmp)
+    TAGS.append(tag_tmp)
     return STRINGS, TAGS
 
 def getDataLoader(file_path, data):
-    STRINGS, TAGS = getInstances(file_path)
+    STRINGS, TAGS = getInstances(data, file_path)
     return get_loader(STRINGS, TAGS, \
                                        data.word_to_idx, data.tag_to_idx,\
                                        data.char_to_idx,\

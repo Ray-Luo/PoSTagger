@@ -74,10 +74,6 @@ def collate_fn(data):
 		mask = word_seq_tensor.clone()
 		mask[word_seq_tensor==0] = 0
 		mask[word_seq_tensor!=0] = 1
-		# a = mask
-		# a = a.cpu().data.numpy()
-		# print('***********mask1111**********',mask,a.sum())
-		# soruce_seqs, source_lengths, target_seqs, , mask
 
 		return word_seq_tensor, word_seq_lengths, tag_seq_tensor, mask
 

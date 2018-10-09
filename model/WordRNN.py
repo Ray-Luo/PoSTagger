@@ -13,7 +13,6 @@ class WordRNN(WordModel):
             self.char_model = CharRNN(data)
             self.word_embedding_dim = data.word_embedding_dim
             self.word_embeddings = nn.Embedding(len(data.word_to_idx)+1, self.word_embedding_dim)
-            self.word_hidden_dim = data.word_hidden_dim
             self.pretrain_word_emb = data.pretrain_word_emb
 
 

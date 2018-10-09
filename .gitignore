@@ -1,3 +1,5 @@
-tagger.model
+*.model
 *.vectors
 *.pyc
+*.data
+

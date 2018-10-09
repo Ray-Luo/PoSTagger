@@ -19,6 +19,7 @@ class CharRNN(CharModel):
         char_embeds = self.char_embedding(char_seqs)
         char_embeds = pack_padded_sequence(char_embeds, char_seq_lengths, batch_first=True)
         char_hidden = None
+        self.charBiLSTM.flatten_parameters()
         char_lstm_out, char_hidden = self.charBiLSTM(char_embeds, char_hidden)
         char_lstm_out, _ = pad_packed_sequence(char_lstm_out)
 

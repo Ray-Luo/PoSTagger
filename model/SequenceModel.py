@@ -22,6 +22,7 @@ class SequenceModel(nn.Module):
         combined_repre = self.word_model.get_combined_representation(data, word_seq, word_seq_lengths, char_seqs, char_seq_lengths,char_seq_recover)
         
         word_hidden = None
+        self.wordBiLSTM.flatten_parameters()
         word_lstm_out, word_hidden = self.wordBiLSTM(combined_repre, word_hidden)
         word_lstm_out, _ = pad_packed_sequence(word_lstm_out, batch_first=True)
         word_lstm_out = word_lstm_out.contiguous()

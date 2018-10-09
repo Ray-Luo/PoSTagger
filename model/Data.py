@@ -1,5 +1,6 @@
 from utils.pretrained_wordembed import *
 import pandas as pd
+import pickle
 
 class Data:
 
@@ -25,7 +26,7 @@ class Data:
         self.GPU = None
         self.epoch = None
         self.optimizer = None
-        self.save_path = None
+        self.model_save_path = None
 
     def readConfig(self,file_path):
         lines = open(file_path, 'r').readlines()
@@ -79,8 +80,23 @@ class Data:
             elif param_name == 'optimizer':
                 self.optimizer = value
 
-            elif param_name == 'save_path':
-                self.save_path = value
+            elif param_name == 'model_save_path':
+                self.model_save_path = value
+
+            elif param_name == 'data_save_path':
+                self.data_save_path = value
+
+            elif param_name == 'infer_path':
+                self.infer_path = value
+
+            elif param_name == 'mode':
+                self.mode = value
+
+            elif param_name == 'NER':
+                self.NER = bool(value)
+
+            elif param_name == 'result_save_path':
+                self.result_save_path = value
 
 
         
@@ -135,4 +151,17 @@ class Data:
     def getPretrainedEmbedding(self):
         self.pretrain_word_emb = build_pretrain_embedding(embedding_path=self.pretrained_word_embed_path,\
                                                     word_alphabet = list(self.word_to_idx.keys()))
+
+    def saveData(self):
+        f = open(self.data_save_path, 'wb')
+        pickle.dump(self.__dict__, f, 2)
+        f.close()
+
+    def load(self,path):
+        f = open(path, 'rb')
+        tmp_dict = pickle.load(f)
+        f.close()
+        self.__dict__.update(tmp_dict)
+
+
 
