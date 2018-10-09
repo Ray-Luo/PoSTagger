@@ -27,6 +27,11 @@ class Data:
         self.epoch = None
         self.optimizer = None
         self.model_save_path = None
+        self.data_save_path = None
+        self.infer_path = None
+        self.mode = None
+        self.NER = None
+        self.result_save_path = None
 
     def readConfig(self,file_path):
         lines = open(file_path, 'r').readlines()
@@ -100,7 +105,6 @@ class Data:
 
 
         
-
     def buildDictionary(self):
         files = [self.training_path, self.evaluation_path, self.validation_path]
         frames = [pd.read_csv(file,header=None,low_memory=False,encoding='utf-8') for file in files]
