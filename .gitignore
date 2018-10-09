@@ -2,4 +2,7 @@
 *.vectors
 *.pyc
 *.data
+prediction.csv
+predict.csv
+*mini.csv
 
