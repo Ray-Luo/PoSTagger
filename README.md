@@ -1,5 +1,5 @@
 # PoSTagger
-For a more detailed background information please visit my [blog post]().
+For a more detailed background information please visit my [blog post](http://leiluoray.com/2018/10/20/Part-of-Speech-Tagging/).
 ## Requirement
 ```
 Python 3.6, PyTorch 0.4
