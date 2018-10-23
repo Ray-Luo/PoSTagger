@@ -5,10 +5,10 @@ For a more detailed background information please visit my [blog post]().
 Python 3.6, PyTorch 0.4
 ```
 ## Usage
-For ***training***
+For ***training*** <br>
 `python3 train.py`
 
-For ***inferring***:
+For ***inferring*** <br>
 `python3 predict.py`
 
 ## Advantages
