@@ -1,5 +1,5 @@
 # PoSTagger
-This model is based on word-character level biLSTM and is implemented using PyTorch. It can perform PoS tagging and NER (name entity recognition). For a more detailed background information please visit my [blog post](http://leiluoray.com/2018/10/20/Part-of-Speech-Tagging/).
+This model is based on word-character level biLSTM and is implemented using PyTorch. It can perform PoS (part of speech) tagging and NER (name entity recognition). For a more detailed background information please visit my [blog post](http://leiluoray.com/2018/10/20/Part-of-Speech-Tagging/).
 ## Requirement
 ```
 Python 3.6, PyTorch 0.4
