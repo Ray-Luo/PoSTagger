@@ -19,7 +19,7 @@ For ***inferring*** <br>
 
 
 ## Data Format
-A sample training, validation, and evaluation dataset is provided. The first column is sentence id starting from 0. The second column is the word itself, and the last column is the PoS tagging. A simple pretrained word embedding is also provided.
+A sample training and testing dataset is provided. The first column is sentence id starting from 0. The second column is the word itself, and the last column is the PoS tagging. A simple pretrained word embedding is also provided.
 
 ## Performance on CoNLL2000
 |ID| Model |F1-score   
