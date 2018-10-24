@@ -34,12 +34,6 @@ def evaluate(model, instances, data):
 
 
 def recover_label(data, pred_variable, true_variable, mask_variable, label_alphabet, word_recover):
-    """
-        input:
-            pred_variable (batch_size, sent_len): pred tag result
-            true_variable (batch_size, sent_len): true result variable
-            mask_variable (batch_size, sent_len): mask variable
-    """
 
     pred_variable = pred_variable[word_recover]
     true_variable = true_variable[word_recover]
@@ -163,6 +157,3 @@ if __name__ == '__main__':
 
     device = torch.device("cuda:"+data.GPU if torch.cuda.is_available() else "cpu")
     train(training_instances, validation_instances, evaluation_instances, data)
-
-
-
