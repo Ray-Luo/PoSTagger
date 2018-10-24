@@ -148,7 +148,6 @@ def get_matrix(label_list):
     tag_list = []
     stand_matrix = []
     for i in range(0, list_len):
-        # wordlabel = word_list[i]
         current_label = label_list[i].upper()
         if begin_label in current_label:
             if index_tag == '':
