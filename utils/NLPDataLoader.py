@@ -25,14 +25,8 @@ class NLPDataLoader(data.Dataset):
 		max_char = max([len(word) for word in sentence])
 		for word in sentence:
 			word = word.lower()
-	        # get word info
-			# if word not in self.source_word2id:
-			# 	word_idx = 0
-			# else:
 			word_idx = self.source_word2id[word]
 			word_idx_list.append(word_idx)
-	        
-	        # get character level info
 			word_len = len(word)
 
 			chars = []
@@ -57,11 +51,10 @@ def collate_fn(data):
 		word_seq_lengths = torch.tensor([len(seq) for seq in soruce_seqs]).long()
 		max_seq_len = max(word_seq_lengths)
 		batch_size = len(soruce_seqs)
-		#print('word_seq_lengths**************',lengths)
-		#seq_lengths, perm_idx = lengths.sort(0, descending=True)
+		
 		word_seq_tensor = autograd.Variable(torch.zeros((batch_size, max_seq_len))).long()
 		tag_seq_tensor = autograd.Variable(torch.zeros((batch_size, max_seq_len))).long()
-		# seq_tensor = seq_tensor[perm_idx]
+
 		for i, (word_seq, tag_seq) in enumerate(zip(soruce_seqs,target_seqs)):
 			end = word_seq_lengths[i]
 			word_seq_tensor[i, :end] = word_seq[:end]
@@ -84,9 +77,6 @@ def collate_fn(data):
 		word_seq_lengths, word_perm_idx = lengths.sort(0, descending=True)
 		char_max = 0
 		char_lengths = []
-
-		#seqs = [seqs[idx] + [[0]] * (max_seq_len-len(seqs[idx])) for idx in range(len(seqs))]
-
 		pad_chars = []
 		for idx in range(len(seqs)):
 			tmp = []
@@ -106,8 +96,6 @@ def collate_fn(data):
 		for i, (seq, seqlen) in enumerate(zip(seqs, char_lengths)):
 			for j, (word, wordlen) in enumerate(zip(seq, seqlen)):
 				chars_tensor[i, j, :wordlen] = torch.LongTensor(word)
-
-		#print('chars_tensor',chars_tensor.size(),word_seq_lengths.size())
 		chars_tensor = chars_tensor[word_perm_idx].view(batch_size*max_seq_len,-1)
 		char_lengths = char_lengths[word_perm_idx].view(batch_size*max_seq_len,)
 
@@ -137,56 +125,3 @@ def get_loader(source, target, source_word2id, target_word2id, char2id,  batch_s
 												collate_fn=collate_fn,\
 												num_workers=0)
 	return data_loader
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
