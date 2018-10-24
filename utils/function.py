@@ -140,8 +140,6 @@ def calculateFScore(true_lists, predict_lists):
     return accuracy, precision, recall, f_score
 
 def get_matrix(label_list):
-    # list_len = len(word_list)
-    # assert(list_len == len(label_list)), "word list size unmatch with label list"
     list_len = len(label_list)
     begin_label = 'B-'
     inside_label = 'I-'
