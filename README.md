@@ -13,7 +13,7 @@ For ***inferring*** <br>
 
 ## Advantages
 * Easy to extend: word-level and char-level learning based on RNN is provided. CNN version can be added by inheriting WordModel and CharModel.
-* Fully configurable: all the parameters are defined in a config file. User can use different pretrained word and char embeddings.
+* Fully configurable: all the parameters are defined in a config file. User can also use different pretrained word and char embeddings.
 * GPU support: Custom dataloader is defined for fast GPU computation.
 * State-of-the-art performance: the model achieved/surpassed the state-of-art performance on several dataset, such as CoNLL2000 and GENIA dataset.
 
