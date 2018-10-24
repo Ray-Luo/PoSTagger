@@ -22,9 +22,9 @@ For ***inferring*** <br>
 A sample training and testing dataset is provided. The first column is sentence id starting from 0. The second column is the word itself, and the last column is the PoS tagging. A simple pretrained word embedding is also provided.
 
 ## Performance on CoNLL2000
-|ID| Model |F1-score   
-|---|--------- | --------
-|1| Chunks from the Charniak Parser | 94.20%
-|2| Bidirectional LSTM-CRF Model | 94.46%
-|3| Specialized HMM + voting between different representations |  95.23%
-|4| This model | **96.01%** 
+|ID| Model |Author(s)|F1-score   
+|---|--------- | -------- | --------
+|1| Chunks from the Charniak Parser | Hollingshead, Fisher and Roark (2005), Charniak (2000)|94.20%
+|2| Bidirectional LSTM-CRF Model |Huang et al. (2015)| 94.46%
+|3| Specialized HMM + voting between different representations | Shen and Sarkar (2005)| 95.23%
+|4| This model | Lei Luo (2018)|**96.01%** 
