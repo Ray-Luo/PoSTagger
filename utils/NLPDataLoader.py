@@ -31,7 +31,6 @@ class NLPDataLoader(data.Dataset):
 
 			chars = []
 			for char in word:
-				# if char in self.char2id:
 				chars.append(self.char2id[char])
 
 			char_idx_list.append(chars)
@@ -120,8 +119,8 @@ def get_loader(source, target, source_word2id, target_word2id, char2id,  batch_s
 	dataset = NLPDataLoader(source, target, source_word2id, target_word2id, char2id,  batch_size)
 
 	data_loader = torch.utils.data.DataLoader(dataset=dataset,\
-												batch_size=batch_size,
-												shuffle=True,
-												collate_fn=collate_fn,\
-												num_workers=0)
+						batch_size=batch_size,
+						shuffle=True,
+						collate_fn=collate_fn,\
+						num_workers=0)
 	return data_loader
