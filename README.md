@@ -28,3 +28,12 @@ A sample training and testing dataset is provided. The first column is sentence 
 |2| Bidirectional LSTM-CRF Model |Huang et al. (2015)| 94.46%
 |3| Specialized HMM + voting between different representations | Shen and Sarkar (2005)| 95.23%
 |4| This model | Lei Luo (2018)|**96.01%** 
+
+## Citation
+
+    @article{leiluopostagging,
+        Author = {Lei Luo},
+        Title = {Learning Part of Speech Using A Character-Word BiLSTM Model},
+        Journal = {https://github.com/Ray-Luo/PoSTagger},
+        Year = {2018}
+    }
